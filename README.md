@@ -39,6 +39,6 @@ DNS for dumpty.bot, at the domain's registrar:
 | AAAA | @ | 2606:50c0:8003::153 |
 | CNAME | www | danielhaaser.github.io |
 
-## Not decided yet
+## Email
 
-- The hello@dumpty.bot mailbox.
+hello@dumpty.bot (shown on the page) goes through Namecheap's free email forwarding, set on the Domain tab under Redirect Email: a catch-all forwards every dumpty.bot address to the team's Gmail, and Gmail sends as hello@ through its own SMTP server.
