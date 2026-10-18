@@ -21,7 +21,24 @@ Logo source files, colours and the design explorations are in the sibling repo `
 - The copy stays general: no venues, strategies, figures or internal project names.
 - Asset links are root-relative (`/assets/...`), so preview it through a local server rather than by opening the file: `python3 -m http.server` in this folder, then open http://127.0.0.1:8000.
 
+## Hosting
+
+Served by GitHub Pages from the `main` branch root of this public repo (public only because free Pages needs it; it holds nothing the site does not already show). `CNAME` sets the custom domain dumpty.bot, and `.nojekyll` makes Pages serve the files as they are. Pushing `main` publishes.
+
+DNS for dumpty.bot, at the domain's registrar:
+
+| Type | Name | Value |
+|---|---|---|
+| A | @ | 185.199.108.153 |
+| A | @ | 185.199.109.153 |
+| A | @ | 185.199.110.153 |
+| A | @ | 185.199.111.153 |
+| AAAA | @ | 2606:50c0:8000::153 |
+| AAAA | @ | 2606:50c0:8001::153 |
+| AAAA | @ | 2606:50c0:8002::153 |
+| AAAA | @ | 2606:50c0:8003::153 |
+| CNAME | www | danielhaaser.github.io |
+
 ## Not decided yet
 
-- Hosting (Cloudflare Pages or GitHub Pages) and pointing dumpty.bot at it.
 - The hello@dumpty.bot mailbox.
