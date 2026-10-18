@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>dumpty | AI-native proprietary trading firm</title>
+<meta name="description" content="dumpty is an AI-native proprietary trading firm providing liquidity across electronic markets. Every strategy is built in house, from research to execution.">
+<meta name="theme-color" content="#07090d">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dumpty.bot/">
+<meta property="og:title" content="dumpty">
+<meta property="og:description" content="AI-driven systematic market making.">
+<meta property="og:image" content="https://dumpty.bot/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400&display=swap">
+<style>
+/* Layout: one dark column over a contour landscape in perspective under a faint night sky; wordmark and contact link, thesis, four practices, contact. Single dark look by choice. */
+:root {
+  --ink: #07090d;          /* page ground, blue-biased black */
+  --ink-2: #0d1118;        /* raised surface */
+  --line: #1c2330;         /* hairlines */
+  --line-strong: #3a4456;  /* control borders, link underlines */
+  --fg: #e7ebf2;           /* primary text */
+  --fg-dim: #8d97a8;       /* secondary text */
+  --accent: #9cc3ff;       /* ice blue: nodes, links, focus */
+  --f-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --f-body: "Geist", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body {
+  background: var(--ink);
+  color: var(--fg);
+  font-family: var(--f-body);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+::selection { background: rgba(156,195,255,.28); color: var(--fg); }
+
+/* Background layers */
+.haze {
+  position: fixed; left: 0; right: 0; top: 28vh; height: 30vh; z-index: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(156,195,255,0) 0%, rgba(156,195,255,.045) 35%, rgba(156,195,255,0) 100%);
+}
+#field, #sky { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; display: block; }
+/* Darkens the terrain behind the text column so reading text keeps its contrast. */
+.scrim {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(90deg, rgba(7,9,13,.62) 0%, rgba(7,9,13,.4) 45%, rgba(7,9,13,0) 78%);
+}
+@media (max-width: 760px) { .scrim { background: rgba(7,9,13,.3); } }
+.vignette {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(120% 90% at 50% 40%, transparent 40%, rgba(3,4,7,.85) 100%);
+}
+.grain {
+  position: fixed; inset: -20%; z-index: 2; pointer-events: none;
+  opacity: .028;
+  background-size: 180px 180px;
+  animation: grain 0.9s steps(1) infinite;
+}
+@keyframes grain {
+  0%   { transform: translate(0, 0); }
+  12%  { transform: translate(-7%, 4%); }
+  25%  { transform: translate(5%, -9%); }
+  37%  { transform: translate(-11%, -3%); }
+  50%  { transform: translate(8%, 10%); }
+  62%  { transform: translate(-4%, 12%); }
+  75%  { transform: translate(12%, -6%); }
+  87%  { transform: translate(-9%, -11%); }
+}
+@media (prefers-reduced-motion: reduce) { .grain { animation: none; } }
+
+/* Content */
+.page {
+  position: relative; z-index: 3;
+  max-width: 1080px; margin: 0 auto;
+  padding-inline: clamp(16px, 5vw, 56px);
+  padding-block: clamp(20px, 4vw, 40px) 32px;
+  display: flex; flex-direction: column; gap: clamp(64px, 12vw, 140px);
+  min-height: 100%;
+}
+header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+main { display: flex; flex-direction: column; gap: inherit; }
+.wordmark {
+  font-family: var(--f-display); font-size: 28px; letter-spacing: .01em; line-height: 1;
+}
+.wordmark span { color: var(--accent); }
+.brand { display: inline-flex; align-items: center; padding-block: 6px; }
+.brand .logo { display: block; height: 36px; width: auto; aspect-ratio: 5.1815; }
+@media (max-width: 760px) { .brand .logo { height: 30px; } }
+.nav-contact {
+  font-size: 14px; font-weight: 400; color: var(--fg-dim); text-decoration: none;
+  padding-block: 12px; transition: color .2s;
+}
+.nav-contact:hover { color: var(--fg); }
+
+.hero { display: grid; gap: 28px; max-width: 900px; }
+h1 {
+  font-family: var(--f-display); font-weight: 400;
+  font-size: clamp(44px, 8vw, 96px); line-height: .98; letter-spacing: -.015em;
+  margin: 0; text-wrap: balance;
+}
+h1 em { font-style: italic; color: var(--fg-dim); }
+.lede { margin: 0; max-width: 58ch; font-size: clamp(17px, 1.6vw, 19px); color: var(--fg-dim); }
+.lede strong { color: var(--fg); font-weight: 400; }
+
+.practices {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(32px, 6vw, 72px); row-gap: 8px;
+}
+.practice { padding: 24px 0 16px; border-top: 1px solid var(--line); display: grid; gap: 10px; align-content: start; min-width: 0; }
+.practice h2 {
+  margin: 0; font-family: var(--f-body); font-weight: 500; font-size: 15px; letter-spacing: .01em; color: var(--fg);
+}
+.practice p { margin: 0; font-size: 15px; font-weight: 400; color: var(--fg-dim); max-width: 46ch; }
+@media (max-width: 760px) {
+  .practices { grid-template-columns: 1fr; row-gap: 0; }
+  .practice { padding: 22px 0; }
+}
+
+.contact { display: grid; gap: 18px; scroll-margin-top: 24px; }
+.contact h2 { margin: 0; font-family: var(--f-body); font-weight: 500; font-size: 15px; letter-spacing: .01em; color: var(--fg); }
+.mail { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; }
+.mail a {
+  font-family: var(--f-display); font-size: clamp(32px, 5.4vw, 60px); line-height: 1.05;
+  color: var(--fg); word-break: break-word; padding-block: 4px;
+  text-decoration: underline 1px var(--line-strong); text-underline-offset: .14em;
+  transition: color .25s, text-decoration-color .25s;
+}
+.mail a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+.mail a:focus-visible, .copy:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.copy {
+  font-family: var(--f-body); font-size: 13px; font-weight: 400;
+  color: var(--fg-dim); background: var(--ink-2); border: 1px solid var(--line-strong);
+  border-radius: 999px; min-height: 44px; padding: 0 18px; cursor: pointer; transition: color .2s, border-color .2s;
+}
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.copy:hover { color: var(--fg); border-color: var(--fg-dim); }
+
+footer {
+  margin-top: auto; padding-top: 24px; border-top: 1px solid var(--line);
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px;
+  font-size: 13px; font-weight: 400; color: var(--fg-dim);
+}
+</style>
+</head>
+<body>
+
+<div class="haze" aria-hidden="true"></div>
+<canvas id="sky" aria-hidden="true"></canvas>
+<canvas id="field" aria-hidden="true"></canvas>
+<div class="scrim" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+<div class="grain" id="grain" aria-hidden="true"></div>
+
+<div class="page">
+  <header>
+    <a class="brand" href="/" aria-label="dumpty home"><svg class="logo" viewBox="-2.00 -142.00 965.83 186.40" role="img" aria-label="dumpty"><title>dumpty</title><path fill="#e7ebf2" transform="translate(-5.00 0.00)" d="M50.20 2.40L50.20 2.40Q36.20 2.40 26.10-3.90Q16-10.20 10.50-22Q5-33.80 5-50L5-50Q5-66.40 10.50-78.10Q16-89.80 26.10-96.10Q36.20-102.40 50.20-102.40L50.20-102.40Q59.60-102.40 66.70-98.70Q73.80-95 78.60-88.20L78.60-88.20L78.60-140L109.80-140L109.80 0L80 0L79.20-12.60Q74.60-5.40 67.20-1.50Q59.80 2.40 50.20 2.40ZM58.40-26.40L58.40-26.40Q64-26.40 68.30-29Q72.60-31.60 75.30-36.50Q78-41.40 78.60-47.40L78.60-47.40L78.60-52.60Q78-58.60 75.30-63.40Q72.60-68.20 68.20-70.90Q63.80-73.60 58.20-73.60L58.20-73.60Q52.20-73.60 47.50-70.60Q42.80-67.60 40.10-62.30Q37.40-57 37.40-50L37.40-50Q37.40-43 40.20-37.70Q43-32.40 47.70-29.40Q52.40-26.40 58.40-26.40Z M159.40 2.40L159.40 2.40Q147.40 2.40 139.20-2.50Q131-7.40 126.90-17.40Q122.80-27.40 122.80-43L122.80-43L122.80-100L154-100L154-48.80Q154-41 155.80-36.20Q157.60-31.40 161-29.20Q164.40-27 169-26.80L169-26.80Q178-26.80 182.60-31.90Q187.20-37 187.20-47.20L187.20-47.20L187.20-100L218.40-100L218.40 0L189 0L187.80-12.80Q183-5.60 175.70-1.60Q168.40 2.40 159.40 2.40Z M264 0L232.80 0L232.80-100L262.20-100L263.40-87.40Q268.20-94.80 275.30-98.60Q282.40-102.40 291-102.40L291-102.40Q303.40-102.40 311.50-97.30Q319.60-92.20 323.40-81.80L323.40-81.80Q328-91.80 336-97.10Q344-102.40 354-102.40L354-102.40Q372-102.40 381.10-91.40Q390.20-80.40 390-57.20L390-57.20L390 0L358.80 0L358.80-51.20Q358.80-59.20 357.10-63.90Q355.40-68.60 352.20-70.80Q349-73 344.60-73.20L344.60-73.20Q336-73.40 331.50-68.30Q327-63.20 327-52.80L327-52.80L327 0L295.80 0L295.80-51.20Q295.80-59.20 294.10-63.90Q292.40-68.60 289.20-70.80Q286-73 281.60-73.20L281.60-73.20Q273-73.40 268.50-68.30Q264-63.20 264-52.80L264-52.80L264 0Z M435.20 40L404.00 40L404.00-100L433.40-100L434.60-87.20Q439.40-94.60 446.70-98.50Q454.00-102.40 463.60-102.40L463.60-102.40Q477.60-102.40 487.80-96.10Q498.00-89.80 503.40-78.10Q508.80-66.40 508.80-50L508.80-50Q508.80-33.80 503.40-22Q498.00-10.20 487.80-3.90Q477.60 2.40 463.60 2.40L463.60 2.40Q454.20 2.40 447.10-1.30Q440.00-5 435.20-12L435.20-12L435.20 40ZM455.60-26.40L455.60-26.40Q461.60-26.40 466.20-29.40Q470.80-32.40 473.60-37.70Q476.40-43 476.40-50L476.40-50Q476.40-57 473.80-62.30Q471.20-67.60 466.50-70.60Q461.80-73.60 455.80-73.60L455.80-73.60Q449.80-73.60 445.10-70.60Q440.40-67.60 437.80-62.20Q435.20-56.80 435.20-50L435.20-50Q435.20-43 437.80-37.70Q440.40-32.40 445.00-29.40Q449.60-26.40 455.60-26.40Z M561 2.40L561 2.40Q543.20 2.40 534.50-6.10Q525.80-14.60 525.80-30.40L525.80-30.40L525.80-73.80L510.20-73.80L510.20-100L525.80-100L525.80-131.20L557-131.20L557-100L579.80-100L579.80-73.80L557-73.80L557-38.20Q557-32.20 559.20-29.40Q561.40-26.60 566-26.60L566-26.60Q567.80-26.60 570.20-27.50Q572.60-28.40 574.60-29.80L574.60-29.80L585.40-7Q580.60-3 573.90-0.30Q567.20 2.40 561 2.40Z M620.00 42.40L620.00 42.40Q613.60 42.40 606.50 40Q599.40 37.60 594.60 34.80L594.60 34.80L606.20 9.40Q609.00 11.40 611.70 12.40Q614.40 13.40 616.60 13.40L616.60 13.40Q620.40 13.40 623.40 11.50Q626.40 9.60 628.20 5.40L628.20 5.40L631.00-1.60L585.00-100L619.60-100L645.20-36.60L669.40-100L704.00-100L659.80 6Q655.40 16.80 650.60 25Q645.80 33.20 638.70 37.80Q631.60 42.40 620.00 42.40Z"/><g transform="translate(760.54 -103.85) scale(1.00647) translate(2 -15)"><g transform="translate(196 0) scale(-1 1)"><path fill="none" stroke="#9cc3ff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" d="M10 110 L52 70 L92 96 L140 30 L186 54"/><g fill="#9cc3ff"><circle cx="10" cy="110" r="12"/><circle cx="52" cy="70" r="12"/><circle cx="92" cy="96" r="12"/><circle cx="140" cy="30" r="15"/><circle cx="186" cy="54" r="12"/></g></g></g></svg></a>
+    <a class="nav-contact" href="#contact">Contact</a>
+  </header>
+
+  <main>
+  <section class="hero" aria-label="About dumpty">
+    <h1>AI-driven systematic market making</h1>
+    <p class="lede">dumpty is an <strong>AI-native proprietary trading firm</strong> providing liquidity across electronic markets. Every strategy is built in house, from research to execution.</p>
+  </section>
+
+  <section class="practices" aria-label="Capabilities">
+    <div class="practice">
+      <h2>Market making</h2>
+      <p>Continuous two-sided quotes, priced and managed by models in real time.</p>
+    </div>
+    <div class="practice">
+      <h2>Quantitative research</h2>
+      <p>Strategies refined through data and rigorous testing.</p>
+    </div>
+    <div class="practice">
+      <h2>Exchange partnerships</h2>
+      <p>Working with exchanges to deepen liquidity and improve market quality.</p>
+    </div>
+    <div class="practice">
+      <h2>Technology</h2>
+      <p>A proprietary trading platform with direct exchange connectivity and real-time market data.</p>
+    </div>
+  </section>
+
+  <section class="contact" id="contact" aria-labelledby="contact-h">
+    <h2 id="contact-h">Get in touch</h2>
+    <div class="mail">
+      <a href="mailto:hello@dumpty.bot" id="mail">hello@dumpty.bot</a>
+      <button class="copy" id="copy" type="button">Copy address</button>
+      <span class="sr-only" id="copy-status" aria-live="polite"></span>
+    </div>
+  </section>
+  </main>
+
+  <footer>
+    <span>&copy; 2026 dumpty</span>
+  </footer>
+</div>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Film grain: one noise tile, shifted by CSS each frame.
+  const g = document.createElement('canvas');
+  g.width = g.height = 180;
+  const gx = g.getContext('2d');
+  const img = gx.createImageData(180, 180);
+  for (let i = 0; i < img.data.length; i += 4) {
+    // light specks on transparent: overlay blending barely shows on a near-black page
+    const r = Math.random();
+    img.data[i] = img.data[i + 1] = img.data[i + 2] = 255;
+    img.data[i + 3] = r * r * 255 | 0;
+  }
+  gx.putImageData(img, 0, 0);
+  document.getElementById('grain').style.backgroundImage = `url(${g.toDataURL()})`;
+
+  // Terrain field on the GPU (WebGL2): the same landscape, drawn as a mesh whose fragment
+  // shader paints the contour lines. The depth buffer hides lines behind nearer hills.
+  // Returns false when WebGL2 is unavailable, and the canvas 2D version below runs instead.
+  function terrainGL(c) {
+    const gl = c.getContext('webgl2', { antialias: false, alpha: true, premultipliedAlpha: true, powerPreference: 'low-power' });
+    if (!gl) return false;
+    const small = innerWidth < 768;   // lighter mesh on phones
+    const COLS = small ? 150 : 240, ROWS = small ? 120 : 200, LEVELS = 24;
+    const Z_NEAR = 0.9, Z_FAR = 10, CAM_H = 1.3, AMP = 0.95, FREQ = 0.36;
+
+    const vs = `#version 300 es
+    precision highp float;
+    in vec2 a_uv;
+    uniform vec2 u_view;      // css px
+    uniform float u_f, u_hor, u_half, u_time, u_drift;
+    out float v_h; out float v_v;
+    vec3 mod289(vec3 x){return x-floor(x*(1./289.))*289.;}
+    vec4 mod289(vec4 x){return x-floor(x*(1./289.))*289.;}
+    vec4 permute(vec4 x){return mod289(((x*34.)+1.)*x);}
+    vec4 taylorInvSqrt(vec4 r){return 1.79284291400159-.85373472095314*r;}
+    float snoise(vec3 v){
+      const vec2 C=vec2(1./6.,1./3.); const vec4 D=vec4(0.,.5,1.,2.);
+      vec3 i=floor(v+dot(v,C.yyy)); vec3 x0=v-i+dot(i,C.xxx);
+      vec3 g=step(x0.yzx,x0.xyz); vec3 l=1.-g; vec3 i1=min(g.xyz,l.zxy); vec3 i2=max(g.xyz,l.zxy);
+      vec3 x1=x0-i1+C.xxx; vec3 x2=x0-i2+C.yyy; vec3 x3=x0-D.yyy;
+      i=mod289(i);
+      vec4 p=permute(permute(permute(i.z+vec4(0.,i1.z,i2.z,1.))+i.y+vec4(0.,i1.y,i2.y,1.))+i.x+vec4(0.,i1.x,i2.x,1.));
+      float n_=.142857142857; vec3 ns=n_*D.wyz-D.xzx;
+      vec4 j=p-49.*floor(p*ns.z*ns.z); vec4 x_=floor(j*ns.z); vec4 y_=floor(j-7.*x_);
+      vec4 x=x_*ns.x+ns.yyyy; vec4 y=y_*ns.x+ns.yyyy; vec4 h=1.-abs(x)-abs(y);
+      vec4 b0=vec4(x.xy,y.xy); vec4 b1=vec4(x.zw,y.zw);
+      vec4 s0=floor(b0)*2.+1.; vec4 s1=floor(b1)*2.+1.; vec4 sh=-step(h,vec4(0.));
+      vec4 a0=b0.xzyw+s0.xzyw*sh.xxyy; vec4 a1=b1.xzyw+s1.xzyw*sh.zzww;
+      vec3 p0=vec3(a0.xy,h.x); vec3 p1=vec3(a0.zw,h.y); vec3 p2=vec3(a1.xy,h.z); vec3 p3=vec3(a1.zw,h.w);
+      vec4 norm=taylorInvSqrt(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));
+      p0*=norm.x; p1*=norm.y; p2*=norm.z; p3*=norm.w;
+      vec4 m=max(.6-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.); m=m*m;
+      return 42.*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));
+    }
+    void main(){
+      float z = ${Z_NEAR.toFixed(3)} * pow(${(Z_FAR / Z_NEAR).toFixed(5)}, a_uv.y);
+      float x = (a_uv.x * 2. - 1.) * z * u_half;
+      vec2 p = vec2(x, z + u_drift) * ${FREQ.toFixed(3)};
+      float h = (snoise(vec3(p, u_time)) * .75 + snoise(vec3(p * 2.1, u_time * 1.3 + 7.)) * .25) * ${AMP.toFixed(3)};
+      vec2 s = vec2(u_view.x * .5 + u_f * x / z, u_hor + u_f * (${CAM_H.toFixed(3)} - h) / z);
+      gl_Position = vec4(s.x / u_view.x * 2. - 1., 1. - s.y / u_view.y * 2., a_uv.y * 2. - 1., 1.);
+      v_h = h; v_v = a_uv.y;
+    }`;
+
+    const fs = `#version 300 es
+    precision highp float;
+    in float v_h; in float v_v;
+    uniform float u_dpr;
+    out vec4 o;
+    void main(){
+      float t = (v_h + ${AMP.toFixed(3)}) / ${(2 * AMP).toFixed(3)} * ${LEVELS.toFixed(1)} - .5;
+      float fw = max(fwidth(t), 1e-4);
+      float d = abs(fract(t + .5) - .5) / fw;          // distance to nearest contour, in px
+      float idx = floor(t + .5);
+      bool major = mod(idx, 4.) == 1.;
+      float wgt = 1. - v_v * .55;                      // nearer lines a touch thicker
+      float wid = (major ? 1.1 : .7) * wgt * u_dpr;
+      float line = 1. - smoothstep(wid * .5 - .5, wid * .5 + .5, d);
+      float fade = pow(1. - v_v, .9) * min(1., .3 + v_v * 5.);
+      float a = line * fade * (major ? .26 : .12);
+      vec3 ground = vec3(7., 9., 13.) / 255.;
+      vec3 ink = major ? vec3(170., 205., 255.) / 255. : vec3(156., 195., 255.) / 255.;
+      o = vec4(mix(ground, ink, a), 1.);
+    }`;
+
+    function sh(type, src) {
+      const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { console.warn(gl.getShaderInfoLog(s)); return null; }
+      return s;
+    }
+    const v = sh(gl.VERTEX_SHADER, vs), f = sh(gl.FRAGMENT_SHADER, fs);
+    if (!v || !f) return false;
+    const prog = gl.createProgram(); gl.attachShader(prog, v); gl.attachShader(prog, f); gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { console.warn(gl.getProgramInfoLog(prog)); return false; }
+    gl.useProgram(prog);
+
+    // Static grid: (u, v) in [0,1]^2, v = 0 nearest row. Heights are computed in the vertex shader.
+    const uv = new Float32Array((COLS + 1) * (ROWS + 1) * 2);
+    for (let j = 0, k = 0; j <= ROWS; j++) for (let i = 0; i <= COLS; i++) { uv[k++] = i / COLS; uv[k++] = j / ROWS; }
+    const idx = new Uint32Array(COLS * ROWS * 6);
+    for (let j = 0, k = 0; j < ROWS; j++) for (let i = 0; i < COLS; i++) {
+      const a = j * (COLS + 1) + i, b = a + 1, d = a + COLS + 1, e = d + 1;
+      idx[k++] = a; idx[k++] = b; idx[k++] = d; idx[k++] = b; idx[k++] = e; idx[k++] = d;
+    }
+    const vao = gl.createVertexArray(); gl.bindVertexArray(vao);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer()); gl.bufferData(gl.ARRAY_BUFFER, uv, gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(prog, 'a_uv');
+    gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer()); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, idx, gl.STATIC_DRAW);
+    gl.enable(gl.DEPTH_TEST); gl.depthFunc(gl.LEQUAL);
+    gl.clearColor(0, 0, 0, 0);
+
+    const U = n => gl.getUniformLocation(prog, n);
+    const uView = U('u_view'), uF = U('u_f'), uHor = U('u_hor'), uHalf = U('u_half'),
+          uTime = U('u_time'), uDrift = U('u_drift'), uDpr = U('u_dpr');
+    let w, h, dpr;
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = c.clientWidth; h = c.clientHeight;
+      c.width = Math.round(w * dpr); c.height = Math.round(h * dpr);
+      gl.viewport(0, 0, c.width, c.height);
+      const fl = Math.max(h * 0.62, w * 0.42);
+      gl.uniform2f(uView, w, h); gl.uniform1f(uF, fl); gl.uniform1f(uHor, h * 0.36);
+      gl.uniform1f(uHalf, (w / 2) / fl * 1.15); gl.uniform1f(uDpr, dpr);
+      if (reduce) draw();
+    }
+    let t = Math.random() * 50, drift = 0, last = 0, running = true;
+    function draw() {
+      gl.uniform1f(uTime, t); gl.uniform1f(uDrift, drift);
+      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+      gl.drawElements(gl.TRIANGLES, idx.length, gl.UNSIGNED_INT, 0);
+    }
+    // Slow drift, drawn at up to 60 frames a second (120 Hz screens skip every other frame).
+    function loop(now) {
+      if (!running) return;
+      if (last && now - last < 15) { requestAnimationFrame(loop); return; }
+      const dt = last ? Math.min(now - last, 100) / 1000 : 0; last = now;
+      t += 0.012 * dt; drift -= 0.035 * dt;
+      draw();
+      requestAnimationFrame(loop);
+    }
+    document.addEventListener('visibilitychange', () => {
+      const vis = document.visibilityState === 'visible';
+      if (vis && !running && !reduce) { running = true; last = 0; requestAnimationFrame(loop); }
+      else if (!vis) running = false;
+    });
+    c.addEventListener('webglcontextlost', e => { e.preventDefault(); running = false; });
+    addEventListener('resize', resize);
+    resize();
+    if (reduce) { running = false; draw(); } else requestAnimationFrame(loop);
+    return true;
+  }
+
+  if (!terrainGL(document.getElementById('field'))) (() => {
+  // Terrain field: contour lines of a slowly evolving noise landscape, seen in perspective.
+  const c = document.getElementById('field');
+  const ctx = c.getContext('2d');
+  let w, h, dpr, f, hor, xs, zs, ys;
+  const COLS = 160, ROWS = 130, LEVELS = 24;
+  const Z_NEAR = 0.9, Z_FAR = 10, CAM_H = 1.3, AMP = 0.95, FREQ = 0.36;
+
+  // Simplex noise 3D (after Stefan Gustavson), seeded permutation.
+  const perm = new Uint8Array(512);
+  (() => { const p = [...Array(256).keys()];
+    for (let i = 255; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [p[i], p[j]] = [p[j], p[i]]; }
+    for (let i = 0; i < 512; i++) perm[i] = p[i & 255]; })();
+  const G = [1,1,0,-1,1,0,1,-1,0,-1,-1,0,1,0,1,-1,0,1,1,0,-1,-1,0,-1,0,1,1,0,-1,1,0,1,-1,0,-1,-1];
+  function noise(x, y, z) {
+    const F3 = 1/3, G3 = 1/6, s = (x + y + z) * F3;
+    const i = Math.floor(x + s), j = Math.floor(y + s), k = Math.floor(z + s);
+    const t = (i + j + k) * G3, x0 = x - i + t, y0 = y - j + t, z0 = z - k + t;
+    let i1, j1, k1, i2, j2, k2;
+    if (x0 >= y0) { if (y0 >= z0) { i1=1;j1=0;k1=0;i2=1;j2=1;k2=0; } else if (x0 >= z0) { i1=1;j1=0;k1=0;i2=1;j2=0;k2=1; } else { i1=0;j1=0;k1=1;i2=1;j2=0;k2=1; } }
+    else { if (y0 < z0) { i1=0;j1=0;k1=1;i2=0;j2=1;k2=1; } else if (x0 < z0) { i1=0;j1=1;k1=0;i2=0;j2=1;k2=1; } else { i1=0;j1=1;k1=0;i2=1;j2=1;k2=0; } }
+    const x1 = x0 - i1 + G3, y1 = y0 - j1 + G3, z1 = z0 - k1 + G3;
+    const x2 = x0 - i2 + 2*G3, y2 = y0 - j2 + 2*G3, z2 = z0 - k2 + 2*G3;
+    const x3 = x0 - 1 + 3*G3, y3 = y0 - 1 + 3*G3, z3 = z0 - 1 + 3*G3;
+    const ii = i & 255, jj = j & 255, kk = k & 255;
+    function corner(gi, cx, cy, cz) {
+      let tt = 0.6 - cx*cx - cy*cy - cz*cz; if (tt < 0) return 0;
+      gi = (gi % 12) * 3; tt *= tt; return tt * tt * (G[gi]*cx + G[gi+1]*cy + G[gi+2]*cz);
+    }
+    return 32 * (corner(perm[ii+perm[jj+perm[kk]]], x0, y0, z0)
+      + corner(perm[ii+i1+perm[jj+j1+perm[kk+k1]]], x1, y1, z1)
+      + corner(perm[ii+i2+perm[jj+j2+perm[kk+k2]]], x2, y2, z2)
+      + corner(perm[ii+1+perm[jj+1+perm[kk+1]]], x3, y3, z3));
+  }
+
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = c.clientWidth; h = c.clientHeight;
+    c.width = w * dpr; c.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    f = Math.max(h * 0.62, w * 0.42);
+    hor = h * 0.36;
+    // Grid in world space: rows at log-spaced depths, columns spanning the view at each depth.
+    const n = (COLS + 1) * (ROWS + 1);
+    xs = new Float32Array(n); zs = new Float32Array(n); ys = new Float32Array(n);
+    for (let j = 0; j <= ROWS; j++) {
+      const z = Z_NEAR * Math.pow(Z_FAR / Z_NEAR, j / ROWS);
+      const half = z * (w / 2) / f * 1.15;
+      for (let i = 0; i <= COLS; i++) {
+        const k = j * (COLS + 1) + i;
+        xs[k] = (i / COLS * 2 - 1) * half; zs[k] = z;
+      }
+    }
+    draw(t, 0);
+  }
+
+  function draw(time, drift) {
+    const N = COLS + 1;
+    for (let k = 0; k < ys.length; k++) {
+      const px = xs[k] * FREQ, pz = (zs[k] + drift) * FREQ;
+      ys[k] = (noise(px, pz, time) * 0.75 + noise(px * 2.1, pz * 2.1, time * 1.3 + 7) * 0.25) * AMP;
+    }
+    ctx.clearRect(0, 0, w, h);
+    const proj = (x, y, z) => [w / 2 + f * x / z, hor + f * (CAM_H - y) / z];
+    // Paint far to near. Each strip of ground is filled with the page colour first,
+    // so nearer hills hide the lines behind them.
+    for (let j = ROWS - 1; j >= 0; j--) {
+      const u = j / ROWS;
+      const fade = Math.pow(1 - u, 0.9) * Math.min(1, 0.3 + u * 5);
+      const ground = new Path2D();
+      for (let i = 0; i <= COLS; i++) {
+        const k = j * N + i, P = proj(xs[k], ys[k], zs[k]);
+        i ? ground.lineTo(P[0], P[1]) : ground.moveTo(P[0], P[1]);
+      }
+      for (let i = COLS; i >= 0; i--) {
+        const k = (j + 1) * N + i, P = proj(xs[k], ys[k], zs[k]);
+        ground.lineTo(P[0], P[1]);
+      }
+      ground.closePath();
+      ctx.fillStyle = '#07090d';
+      ctx.fill(ground);
+      if (fade < 0.01) continue;
+      const minor = new Path2D(), major = new Path2D();
+      for (let i = 0; i < COLS; i++) {
+        const k0 = j * N + i, k1 = k0 + 1, k2 = k0 + N + 1, k3 = k0 + N;
+        const a = ys[k0], b = ys[k1], cc = ys[k2], d = ys[k3];
+        const lo = Math.min(a, b, cc, d), hi = Math.max(a, b, cc, d);
+        for (let l = 0; l < LEVELS; l++) {
+          const lv = -AMP + (2 * AMP * (l + 0.5)) / LEVELS;
+          if (lv < lo || lv > hi) continue;
+          const idx = (a > lv ? 8 : 0) | (b > lv ? 4 : 0) | (cc > lv ? 2 : 0) | (d > lv ? 1 : 0);
+          if (idx === 0 || idx === 15) continue;
+          const e = (p, q, vp, vq) => { const t = (lv - vp) / (vq - vp);
+            return proj(xs[p] + (xs[q] - xs[p]) * t, lv, zs[p] + (zs[q] - zs[p]) * t); };
+          const path = l % 4 === 1 ? major : minor;
+          const seg = (P, Q) => { path.moveTo(P[0], P[1]); path.lineTo(Q[0], Q[1]); };
+          const top = () => e(k0, k1, a, b), right = () => e(k1, k2, b, cc),
+                bottom = () => e(k3, k2, d, cc), left = () => e(k0, k3, a, d);
+          switch (idx) {
+            case 1: case 14: seg(left(), bottom()); break;
+            case 2: case 13: seg(bottom(), right()); break;
+            case 3: case 12: seg(left(), right()); break;
+            case 4: case 11: seg(top(), right()); break;
+            case 6: case 9: seg(top(), bottom()); break;
+            case 7: case 8: seg(left(), top()); break;
+            case 5: seg(left(), top()); seg(bottom(), right()); break;
+            case 10: seg(left(), bottom()); seg(top(), right()); break;
+          }
+        }
+      }
+      // nearer lines are a touch thicker
+      const wgt = 1 - u * 0.55;
+      ctx.lineWidth = 0.7 * wgt;
+      ctx.strokeStyle = `rgba(156,195,255,${(0.12 * fade).toFixed(3)})`;
+      ctx.stroke(minor);
+      ctx.lineWidth = 1.1 * wgt;
+      ctx.strokeStyle = `rgba(170,205,255,${(0.26 * fade).toFixed(3)})`;
+      ctx.stroke(major);
+    }
+  }
+
+  // Without WebGL2 the landscape is drawn once and holds still, to spare slower devices.
+  const t = Math.random() * 50;
+  addEventListener('resize', resize);
+  resize();
+
+  })();
+
+  // Night sky above the horizon: faint twinkling stars, and now and then a constellation that
+  // draws itself in, star by star, left to right. Its stars rise and fall like a line chart.
+  (() => {
+    const c = document.getElementById('sky');
+    const ctx = c.getContext('2d');
+    let w, h, dpr, hor, dust = [], figs = [], nextSpawn = 0, clock = 0;
+    const HOR = 0.36;                       // matches the terrain's horizon
+    const DRAW = 7, HOLD = 9, FADE = 5;     // constellation lifecycle, seconds
+    const rnd = (a, b) => a + Math.random() * (b - a);
+
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = c.clientWidth; h = c.clientHeight;
+      c.width = Math.round(w * dpr); c.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      hor = h * HOR;
+      dust = Array.from({ length: Math.round(w * hor / 7000) }, () => ({
+        x: Math.random() * w, y: Math.pow(Math.random(), 1.4) * hor * 0.95,
+        r: rnd(0.35, 1.0), a: rnd(0.06, 0.3), p: Math.random() * 6.28, s: rnd(0.3, 1.1) }));
+      figs = figs.filter(f => f.x1 < w);
+      if (reduce) { figs = [make(), make()].filter(Boolean); figs.forEach(f => f.age = DRAW + 1); draw(); }
+    }
+
+    // a constellation: 5-8 stars, x increasing, y wandering like a price
+    function make() {
+      const narrow = w < 760;
+      for (let tries = 0; tries < 12; tries++) {
+        const n = 5 + Math.floor(Math.random() * 4);
+        const span = w * (narrow ? rnd(0.3, 0.5) : rnd(0.12, 0.22));
+        const x0 = narrow ? rnd(0.08, 0.92 - span / w) * w : rnd(0.6, 0.93 - span / w) * w;   // keep clear of the headline
+        let y = (narrow ? rnd(0.18, 0.3) : rnd(0.12, 0.8)) * hor;
+        const pts = [];
+        for (let i = 0; i < n; i++) {
+          const x = x0 + span * (i / (n - 1)) + rnd(-0.25, 0.25) * span / n;
+          y = Math.min(hor * (narrow ? 0.36 : 0.88), Math.max(hor * (narrow ? 0.14 : 0.06), y + rnd(-1, 1) * hor * (narrow ? 0.06 : 0.16)));
+          pts.push({ x, y, r: rnd(0.9, 1.6) });
+        }
+        const f = { pts, x0, x1: x0 + span, y0: Math.min(...pts.map(p => p.y)), y1: Math.max(...pts.map(p => p.y)), age: 0 };
+        const clash = figs.some(g => f.x0 < g.x1 + 30 && g.x0 < f.x1 + 30 && f.y0 < g.y1 + 20 && g.y0 < f.y1 + 20);
+        if (!clash) return f;
+      }
+      return null;
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      for (const d of dust) {
+        const tw = 0.6 + 0.4 * Math.sin(d.p + clock * d.s);
+        ctx.fillStyle = `rgba(215,228,255,${(d.a * tw).toFixed(3)})`;
+        ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, 6.283); ctx.fill();
+      }
+      for (const f of figs) {
+        const life = f.age < DRAW + HOLD ? 1 : Math.max(0, 1 - (f.age - DRAW - HOLD) / FADE);
+        const prog = Math.min(1, f.age / DRAW) * (f.pts.length - 1);   // segments drawn so far
+        ctx.lineWidth = 0.7;
+        ctx.strokeStyle = `rgba(156,195,255,${(0.15 * life).toFixed(3)})`;
+        ctx.beginPath();
+        ctx.moveTo(f.pts[0].x, f.pts[0].y);
+        for (let i = 1; i < f.pts.length; i++) {
+          const k = Math.min(1, prog - (i - 1));
+          if (k <= 0) break;
+          const a = f.pts[i - 1], b = f.pts[i];
+          ctx.lineTo(a.x + (b.x - a.x) * k, a.y + (b.y - a.y) * k);
+        }
+        ctx.stroke();
+        f.pts.forEach((p, i) => {
+          const on = Math.min(1, Math.max(0, (prog - i + 1) * 1.5));   // each star lights as the line reaches it
+          if (on <= 0) return;
+          const tw = 0.85 + 0.15 * Math.sin(clock * 1.3 + i);
+          const a = 0.42 * on * life * tw;
+          ctx.fillStyle = `rgba(156,195,255,${(a * 0.18).toFixed(3)})`;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 3.2, 0, 6.283); ctx.fill();
+          ctx.fillStyle = `rgba(225,236,255,${a.toFixed(3)})`;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fill();
+        });
+      }
+    }
+
+    let running = !reduce, last = 0;
+    function loop(now) {
+      if (!running) return;
+      if (last && now - last < 32) { requestAnimationFrame(loop); return; }   // at most 30 fps
+      const dt = last ? Math.min(now - last, 100) / 1000 : 0; last = now;
+      clock += dt;
+      figs.forEach(f => f.age += dt);
+      figs = figs.filter(f => f.age < DRAW + HOLD + FADE);
+      if (clock >= nextSpawn && figs.length < 2) { const f = make(); if (f) figs.push(f); nextSpawn = clock + rnd(4, 9); }
+      draw();
+      requestAnimationFrame(loop);
+    }
+    document.addEventListener('visibilitychange', () => {
+      const vis = document.visibilityState === 'visible';
+      if (vis && !running && !reduce) { running = true; last = 0; requestAnimationFrame(loop); }
+      else if (!vis) running = false;
+    });
+    addEventListener('resize', resize);
+    resize();
+    if (running) { const f = make(); if (f) { f.age = DRAW * 0.6; figs.push(f); } requestAnimationFrame(loop); }
+  })();
+
+  // Copy address
+  const btn = document.getElementById('copy');
+  const status = document.getElementById('copy-status');
+  const say = (label, msg) => {
+    btn.textContent = label; status.textContent = msg;
+    setTimeout(() => { btn.textContent = 'Copy address'; status.textContent = ''; }, 2400);
+  };
+  btn.addEventListener('click', () => {
+    const addr = 'hello@dumpty.bot';
+    const fallback = () => {
+      const r = document.createRange(); r.selectNodeContents(document.getElementById('mail'));
+      const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      const key = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent) ? '\u2318C' : 'Ctrl+C';
+      say('Press ' + key, 'Address selected. Press ' + key + ' to copy it.');
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(addr).then(() => say('Copied', 'Address copied.'), fallback);
+    else fallback();
+  });
+})();
+</script>
+
+</body>
+</html>
