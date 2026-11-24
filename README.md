@@ -10,14 +10,15 @@ It is a single static page with no build step:
 | `assets/logo.svg` | the logo used in the header (Figtree ExtraBold outlines with the falling constellation) |
 | `assets/favicon.svg`, `favicon-32.png`, `favicon-48.png` | browser-tab icons |
 | `assets/apple-touch-icon.png` | 180 px icon for phone home screens |
-| `assets/og.png` | 1200 by 630 image shown when the link is shared |
+| `assets/og.png` | 1200 by 630 image shown when the link is shared: the logo over the tagline |
+| `assets/geist-OFL.txt`, `assets/instrument-serif-OFL.txt` | the licences of the two fonts the page carries |
 
-Logo source files, colours and the design explorations are in the sibling repo `dumpty-design`.
+Logo source files and the design explorations are in the sibling repo `dumpty-design`. The page's colours and type follow the shared dumpty look, which is kept outside this repo: neutral greys for text and lines, ice blue as the one accent, Geist for words. As the public page it keeps two things of its own: the serif headline and email address, and its landscape.
 
 ## Notes
 
 - The landscape is drawn with WebGL2 at up to 60 frames a second. Browsers without WebGL2 get a still canvas version. Everything stops for visitors who turn on reduced motion, and the animation pauses in background tabs.
-- Fonts (Instrument Serif, Geist, Geist Mono) load from Google Fonts. The logo is outlines, so it needs no font.
+- The page fetches nothing from another host. Its two fonts are carried in the stylesheet as `data:` URLs: Geist for the text (variable, latin, from npm `@fontsource-variable/geist` 5.3.0) and Instrument Serif for the headline and the email address (400, latin, from npm `@fontsource/instrument-serif` 5.3.0), both under the SIL Open Font License 1.1. The logo is outlines, so it needs no font.
 - The copy stays general: no venues, strategies, figures or internal project names.
 - Asset links are root-relative (`/assets/...`), so preview it through a local server rather than by opening the file: `python3 -m http.server` in this folder, then open http://127.0.0.1:8000.
 
